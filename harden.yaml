@@ -1,0 +1,5 @@
+---
+- name: Playbook Best Practices
+  hosts: name
+  roles:
+    - compliance
