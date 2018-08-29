@@ -1,0 +1,4 @@
+Defaults:user1 !requiretty
+user1 ALL = NOPASSWD: ALL
+user2 ALL=(ALL) ALL
+user3 ALL=/usr/bin/systemctl * snmpd

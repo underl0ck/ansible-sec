@@ -1,0 +1,19 @@
+---
+ - name: Adding all users
+   user:
+     name: "{{ item.name }}"
+     state: present
+     password: "{{ item.password }}"
+   with_items:
+      - { name: 'user1', password: '$1$Xh26LNXw$uMNxai0q5XWP2PqtyLNxv1' }
+      - { name: 'user2', password: '$1$Corpflex$Qbw52vO.ow3U75I.tDlFl0' }
+      - { name: 'user3', password: '$1$Corpflex$YflVkj/fmWuGTN9FIO9pO/' }
+
+ - name: Copying file sudoers file
+   copy:
+      src: sudo_cfx
+      dest: /etc/sudoers.d/sudo_cfx
+      owner: root
+      group: root
+      mode: 0440
+      validate: /usr/sbin/visudo -cf %s

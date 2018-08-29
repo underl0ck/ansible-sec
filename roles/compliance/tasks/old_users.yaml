@@ -1,0 +1,25 @@
+---
+ - name: Adding all users
+   user:
+     name: "{{ item.name }}"
+     state: present
+     password: "{{ item.password }}"
+   with_items:
+      - { name: 'user1', password: '$1$SxnxUtLh$k54oWqP1pq3n8JEAdAgmX/' }
+      - { name: 'user2', password: '$1$SxnxUtLh$k54oWqP1pq3n8JEAdAgmX/' }
+      - { name: 'user3', password: '$1$SxnxUtLh$k54oWqP1pq3n8JEAdAgmX/' }
+ - name: Criando arquivo para edição do arquivo sudoers
+   command: cp -f /etc/sudoers /etc/sudoers.tmp
+
+ - name: Sudoing all users
+   lineinfile:
+     dest: /etc/sudoers.tmp
+     state: present
+     regexp: "{{ item.regexp }}"
+     line: "{{ item.line }}"
+   with_items:
+      - { regexp: '^user1', line: 'user1 ALL=(ALL) ALL' }
+      - { regexp: '^user2', line: 'user1 ALL=(ALL) ALL' }
+      - { regexp: '^user3', line: 'user1 ALL=(ALL) ALL' }
+ - name: Checa se o arquivo tem erros e copia para o original
+   shell: /usr/sbin/visudo -q -c -f /etc/sudoers.tmp && cp -f /etc/sudoers.tmp /etc/sudoers
